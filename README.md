@@ -24,7 +24,13 @@ Run a script in Jupyter notebook to create output data sets.
 * MMMToyDataSetOnePaidVar.ipynb: creates a data set with one paid variable
 * MMMToyDataSetTwoPaidVar.ipynb: creates a data set with two paid variables
 
-The data sets created by these two files are in the data directory so users do not have to recreate.
+The data sets created by these two files are in the data directory so users do not have to recreate:
+* robyn_toy_data_1paidvar_600000err.csv
+* robyn_toy_data_2paidvar_600000err.csv
+
+Additionally we have put in the data directory a data set which was used in early experimentation,
+and differs primarily because a different number of random draws occurred:
+* robyn_toy_data_600000.csv
 
 ## Execution of Script in Robyn
 
