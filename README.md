@@ -1,6 +1,6 @@
 # MMM Toy Data
 
-## For Robyn
+## For [Robyn](https://github.com/facebookexperimental/Robyn)
 
 ### Data Sets
 
@@ -16,7 +16,7 @@ The data sets created by these two files are in the data directory so users do n
 * robyn_toy_script.R: script to execute using a toy data set
 
 
-## For VAR
+## For [VAR Vector Autoregression](https://www.rdocumentation.org/packages/vars/versions/1.5-6/topics/VAR)
 
 * PoisonToy.ipynb was created for VAR in order to determine how it would measure the impact of poison
 
