@@ -41,6 +41,10 @@ A certain amount of configuration is required, such as working directory, number
 
 Additionally, some further configuration may be required as one runs various experiments in R.
 
+Note: our local Vistaprint version of Robyn has an argument "unconstrained_intercept" which allows Robyn
+to have negative intercepts. We believe this is critical for equation fitting.  If you are using a version
+of Robyn which does not support this argument you will have to comment out this one line.
+
 # For [VAR Vector Autoregression](https://www.rdocumentation.org/packages/vars/versions/1.5-6/topics/VAR)
 
 This section is a bit less developed, as we are not currently working on this code.  We expect to revisit shortly.
