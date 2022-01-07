@@ -14,7 +14,7 @@ library('reticulate')
 # Key configuration items
 # 
 robyn_version_expected = '3.4.8.6'                 # assert correct version of robyn
-output_working_directory = 'e:\\repo\\robyn-mmm'   # where output will be stored
+output_working_directory = 'e:\\repo\\robyn-output'   # where output will be stored
 country_filter = "US"                              # for prophet to know country
 window_start = "2021-01-01"                        # Robyn window start
 window_end = "2021-12-31"                          # Robyn window end
@@ -29,11 +29,11 @@ cores = 6
 #
 # Configure across experiments
 #
-target_variable = 'bookings_noiseless'
+target_variable = 'bookings_noisy'                # bookings_noisy, bookings_noiseless, bookings_noisy_context
 paid_media_vars = c("tv")                          # variables to be tested, could be tv, fb
 paid_media_spends = c("tv")                        # variables to be tested, could be tv, fb
-context_vars = c()                                # context, could be c('context_0_center')
-context_signs = c()                               # could be c('default')
+context_vars = c("context_0_center") # c()        # context, could be c('context_0_center')
+context_signs = c("default")         # c()        # could be c('default')
 
 # match number of media variables here; may need fb
 hyperparameters <- list(
@@ -87,16 +87,6 @@ date_format = "%m/%d/%Y"                                                        
 robyn_object <- paste0("output/mmm_", format(Sys.Date(), "%Y_%m_%d"), ".RDS")   # where to store output from run
 optimal_cores = future::availableCores() - 2
 
-
-# data columns to be used from source_file
-#
-#raw_cols = c('date', 
-#             'tv', 
-#             'context_0_center', 
-#             'context_100_center',
-#             'bookings_noiseless',
-#             'bookings_noisy',
-#             'bookings_noisy_context')
 
 src_dt<- read.csv(source_file, header=TRUE, sep=',') 
 
@@ -185,7 +175,7 @@ OutputCollect <- robyn_run(
   , csv_out = "all"
   # we are using seed above only  , seed=seed
   , plot_pareto = TRUE  # can make FALSE To save time but then we dont have the output images
-  #, unconstrained_intercept = TRUE
+  , unconstrained_intercept = TRUE
 )
 print('robyn_run complete')
 ## Besides one-pager plots: there are 4 csv output saved in the folder for further usage
