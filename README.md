@@ -19,14 +19,25 @@ Here we have provided:
 
 ## Data Sets for Robyn
 
-Run a script in Jupyter notebook to create output data sets.
-
-* MMMToyDataSetOnePaidVar.ipynb: creates a data set with one paid variable
-* MMMToyDataSetTwoPaidVar.ipynb: creates a data set with two paid variables
-
+### Data Sets
 The data sets created by these two files are in the data directory so users do not have to recreate:
-* robyn_toy_data_1paidvar_600000err.csv
-* robyn_toy_data_2paidvar_600000err.csv
+* robyn_toy_data_1paidvar_600000err.csv: one paid media variable is the only driver for bookings
+* robyn_toy_data_2paidvar_balanced_600000err.csv: two paid media each with identical effect and similar spend levels
+* robyn_toy_data_2paidvar_bal_effratio_600000err.csv: two paid media with uneven effect (3:1 ratio) but similar spend levels
+
+We expect to retire use of this data set:
+* robyn_toy_data_2paidvar_imbalanced_600000err.csv: originally the 2 paid variable data set, but vastly unequal spend is not consistent with typical MMM ground truth or Robyn's approach.
+
+### Generating Scripts
+
+These scripts can be reviewed to understand how the data sets were created and some summary statistics.
+
+* MMMToyDataSetOnePaidVar.ipynb: creates data set with one paid variable
+* MMMToyDataSetTwoPaidVarBalancedSpend.ipynb: created data set with two paid variables, balanced spend and effect
+* MMMToyDataSetTwoPaidVarBalSpendEffectRatio.ipynb: creates data set two paid variables, balanced spend but imbalandced and known effect (3:1)
+
+Expect to retire:
+* MMMToyDataSetTwoPaidVarImbalancedSpend.ipynb: 
 
 Additionally we have put in the data directory a data set which was used in early experimentation,
 and differs primarily because a different number of random draws occurred:
@@ -44,6 +55,13 @@ Additionally, some further configuration may be required as one runs various exp
 Note: our local Vistaprint version of Robyn has an argument "unconstrained_intercept" which allows Robyn
 to have negative intercepts. We believe this is critical for equation fitting.  If you are using a version
 of Robyn which does not support this argument you will have to comment out this one line.
+
+### Specific scripts
+
+Although very similar, for documentation reasons we are going to push up scripts actually used.  These should be fairly self-explanatory from naming.
+
+robyn_two_var_fb_only: two variable, balanced, only FB variable considered as driver
+
 
 # For [VAR Vector Autoregression](https://www.rdocumentation.org/packages/vars/versions/1.5-6/topics/VAR)
 
