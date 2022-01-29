@@ -40,7 +40,7 @@ We ran 5 trials for 2000 iterations of each model and here compare the Pareto Fr
 The uncalibrated Pareto Front shows values which range from best NRMSE (0.02) to best DECOMP.RSSD (0.0) at 
 NRMSE > 0.04.
 
-![Uncalibrated Pareto Front](robyn_output/2022-01-28 18.52 init/pareto_front.png)
+![Uncalibrated Pareto Front](robyn_output/2022-01-28_18.52_init/pareto_front.png)
 
 
 ### Calibrated
@@ -48,7 +48,7 @@ NRMSE > 0.04.
 The calibrated Pareto Front shows that there are points near the uncalibrated Pareto Front, but these are 
 disqualified as potential solutions.  "Disqualified" solutions are depicated in gray.
 
-![Calibrated Pareto Front](robyn_output/2022-01-28 20.01 init/pareto_front.png)
+![Calibrated Pareto Front](robyn_output/2022-01-28_20.01_init/pareto_front.png)
 
 ## Disqualification
 
@@ -136,7 +136,7 @@ how nevergrad search was impacted.  Thus, the calibration impact on search focus
 Pareto Front solutions.
 
 Looking again at the calibrated solution we can see some of this:
-![Calibrated Pareto Front](robyn_output/2022-01-28 20.01 init/pareto_front.png)
+![Calibrated Pareto Front](robyn_output/2022-01-28_20.01_init/pareto_front.png)
 
 Firstly, we note that the Pareto Front is sort of a hybrid between a 2-D and a 3-D front.
 At first glance the front shown appears suboptimal, because the solutions are interior to the dot pattern.
