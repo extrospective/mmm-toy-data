@@ -13,7 +13,9 @@ library('reticulate')
 #
 # Key configuration items
 # 
-robyn_version_expected = '3.4.8.6'                 # assert correct version of robyn
+source_file = "../mmm-toy-data/data/robyn_toy_data_2paidvar_bal_eff2ratio_600000err.csv"   
+                                                   # csv file with the source data
+robyn_version_expected = '3.4.8.6'                 # assert correct version of Robyn
 output_working_directory = 'e:\\repo\\robyn-mmm'   # where output will be stored
 country_filter = "US"                              # for prophet to know country
 window_start = "2021-01-01"                        # Robyn window start
@@ -21,7 +23,6 @@ window_end = "2021-12-31"                          # Robyn window end
 trials =  5                                        # Robyn trials
 iterations = 2000                                  # Robyn iterations
 envname = 'never2'                                 # name of conda env setup for nevergrad
-source_file = "../mmm-toy-data/data/robyn_toy_data_2paidvar_bal_effratio_600000err.csv"   # csv file with the source data
 set.seed(45)                                       # repeatability
 options(digits=12)                                 # dataframe printing
 cores = 6
@@ -38,12 +39,12 @@ context_signs = c()                               # could be c('default')
 
 # match number of media variables here; may need fb
 hyperparameters <- list(
-  tv_alphas = c(0, 1.5)  
+  tv_alphas = c(0, 2.0)  
   , tv_gammas = c(0.3, 1.0)
-  , tv_thetas = c(0, 1.0) 
-  , fb_alphas = c(0, 1.5)
+  , tv_thetas = c(0, 0.2) 
+  , fb_alphas = c(0, 2.0)
   , fb_gammas = c(0.3, 1.0)
-  , fb_thetas = c(0, 1.0)
+  , fb_thetas = c(0, 0.2)
 )
 
 
@@ -91,17 +92,6 @@ date_format = "%m/%d/%Y"                                                        
 robyn_object <- paste0("output/mmm_", format(Sys.Date(), "%Y_%m_%d"), ".RDS")   # where to store output from run
 optimal_cores = future::availableCores() - 2
 
-
-# data columns to be used from source_file
-#
-#raw_cols = c('date', 
-#             'tv', 
-#             'context_0_center', 
-#             'context_100_center',
-#             'bookings_noiseless',
-#             'bookings_noisy',
-#             'bookings_noisy_context')
-
 src_dt<- read.csv(source_file, header=TRUE, sep=',') 
 
 
@@ -114,7 +104,6 @@ InputCollect <- robyn_inputs(
   dt_input = src_dt
   ,dt_holidays = holidays_none
   ### set variables
-  
   ,date_var = "date" 
   ,dep_var = target_variable
   ,dep_var_type = "revenue" 
@@ -186,17 +175,12 @@ OutputCollect <- robyn_run(
   InputCollect = InputCollect # feed in all model specification
   , plot_folder = robyn_object # plots will be saved in the same folder as robyn_object
   , pareto_fronts = 3
-  # , csv_out = "all"
-  # we are using seed above only  , seed=seed
+  , csv_out = "all"  # code modification to ensure all csv output in our fork of Robyn
+  # we are using seed above only and do not want to put it here as well  , seed=seed
   , plot_pareto = TRUE  # can make FALSE To save time but then we dont have the output images
-  , unconstrained_intercept = TRUE
+  , unconstrained_intercept = TRUE  # allows negative intercept in our fork of Robyn
 )
 print('robyn_run complete')
-## Besides one-pager plots: there are 4 csv output saved in the folder for further usage
-# pareto_hyperparameters.csv, hyperparameters per Pareto output model
-# pareto_aggregated.csv, aggregated decomposition per independent variable of all Pareto output
-# pareto_media_transform_matrix.csv, all media transformation vectors
-# pareto_alldecomp_matrix.csv, all decomposition vectors of independent variables
 
 print('intentional stop')
 stop()
