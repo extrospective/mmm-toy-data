@@ -17,6 +17,13 @@ Here we have provided:
 
 # For [Robyn](https://github.com/facebookexperimental/Robyn)
 
+## Insights and Analysis
+
+The purpose of these data sets are to support insights and analyses.  Select analyses we have performed are included in this repo:
+
+* Calibration[calibration.md]
+
+
 ## Data Sets for Robyn
 
 ### Data Sets
@@ -60,8 +67,8 @@ of Robyn which does not support this argument you will have to comment out this 
 
 Although very similar, for documentation reasons we are going to push up scripts actually used.  These should be fairly self-explanatory from naming.
 
-robyn_two_var_fb_only: two variable, balanced, only FB variable considered as driver
-
+* robyn_two_var_fb_only.R: two variable, balanced, only FB variable considered as driver
+* robyn_two_var_tv_fb_calibration.R: two variable code for TV and FB with optional calibration
 
 # For [VAR Vector Autoregression](https://www.rdocumentation.org/packages/vars/versions/1.5-6/topics/VAR)
 
