@@ -11,7 +11,7 @@ thereby supporting practitioners wishing to experiment with calibration.
 
 **Calibration Data**: A single day of one channel using "ground truth". The smallest calibration possible within Robyn.
 
-**Datqa Set**: robyn_toy_data_2paidvar_bal_effratio_600000err.csv [described in README](README.md).
+**Data Set**: robyn_toy_data_2paidvar_bal_effratio_600000err.csv [described in README](README.md).
 
 |             | 2022-01-28 18.52 | 2022-01-28 20.01                                       |
 |-------------|-----------------|--------------------------------------------------------|
@@ -241,3 +241,13 @@ may determine whether solutions could emerge in this space.  But at the moment i
 near ground truth are too high and searching this space may be a bit limited.  We do not yet know whether in our
 case this is due to hyperparameters or tension we have setup with decomp.RSSD.
 
+## Reproducing Results
+
+The R script [robyn_two_var_fb_only_calibration.R](robyn_two_var_fb_only_calibration.R) can be used to reproduce the results described here.
+
+### Robyn Version
+
+The Robyn code is based on a [forked version of the Robyn repository](https://github.com/joangcc/Robyn/tree/free_intercept).
+Using the "free_intercept" branch one can select the version of the branch indicated in this R script.
+
+Reasons for using this branch is that we had innovations not yet introduced into Robyn such as allowing negative intercepts.
