@@ -18,10 +18,10 @@ output_working_directory = 'e:\\repo\\robyn-mmm'   # where output will be stored
 country_filter = "US"                              # for prophet to know country
 window_start = "2021-01-01"                        # Robyn window start
 window_end = "2021-12-31"                          # Robyn window end
-trials =  5                                        # Robyn trials
+trials =  5                                       # Robyn trials
 iterations = 2000                                  # Robyn iterations
 envname = 'never2'                                 # name of conda env setup for nevergrad
-source_file = "../mmm-toy-data/data/robyn_toy_data_2paidvar_balanced_600000err.csv"   # csv file with the source data
+source_file = "../mmm-toy-data/data/robyn_toy_data_2paidvar_bal_effratio_600000err.csv"   # csv file with the source data
 set.seed(45)                                       # repeatability
 options(digits=12)                                 # dataframe printing
 cores = 6
@@ -30,20 +30,20 @@ cores = 6
 # Configure across experiments
 #
 target_variable = 'bookings_noiseless'
-paid_media_vars = c("fb")                          # variables to be tested, could be tv, fb
-paid_media_spends = c("fb")                        # variables to be tested, could be tv, fb
-paid_media_signs = c("positive")
+paid_media_vars = c("tv", "fb")                          # variables to be tested, could be tv, fb
+paid_media_spends = c("tv", "fb")                        # variables to be tested, could be tv, fb
+paid_media_signs = c("positive", "positive")
 context_vars = c()                                # context, could be c('context_0_center')
 context_signs = c()                               # could be c('default')
 
 # match number of media variables here; may need fb
 hyperparameters <- list(
- # tv_alphas = c(0, 1.5)  
-#  , tv_gammas = c(0.3, 1.0)
-#  , tv_thetas = c(0, 1.0) 
-   fb_alphas = c(0, 1.5)
+ tv_alphas = c(0, 2.0)  
+  , tv_gammas = c(0.3, 1.0)
+  , tv_thetas = c(0, 0.2) 
+  , fb_alphas = c(0, 2.0)
   , fb_gammas = c(0.3, 1.0)
-  , fb_thetas = c(0, 1.0)
+  , fb_thetas = c(0, 0.2)
 )
 
 
@@ -170,14 +170,17 @@ dt_calibration <- data.frame(
   channel = c("fb")
   
   # liftStartDate must be within input data range
-  , liftStartDate = as.Date(c("2021-01-01"))
+  , liftStartDate = as.Date(c("2021-07-01"))
   
   # liftEndDate must be within input data range
-  , liftEndDate = as.Date(c("2021-01-31"))
+  , liftEndDate = as.Date(c("2021-07-01"))
   
   # The provided value must be tested on the same
   # campaign level than the model and same metric as dep_var_type
-  , liftAbs = c(1)
+  , liftAbs = c(4489200)
+  #
+  # note: 1,806,600 for jan 1
+  #       4,489,200 for july 1
 )
 
 
@@ -185,7 +188,8 @@ dt_calibration <- data.frame(
 print("RStudio code: invoking robyn_inputs")
 InputCollect <- robyn_inputs(InputCollect = InputCollect, 
                              hyperparameters = hyperparameters
-                             , calibration_input = dt_calibration)
+                             , calibration_input = dt_calibration
+                             )
 print('RStudio code: robyn_inputs complete')
 
 #### 2a-4: Fourth (optional), model calibration / add experimental input
@@ -205,7 +209,8 @@ OutputCollect <- robyn_run(
   InputCollect = InputCollect # feed in all model specification
   , plot_folder = robyn_object # plots will be saved in the same folder as robyn_object
   , pareto_fronts = 3
-  # , csv_out = "all"
+  , csv_out = "all"
+  #, calibration_constraint = 0.02
   # we are using seed above only  , seed=seed
   , plot_pareto = TRUE  # can make FALSE To save time but then we dont have the output images
   , unconstrained_intercept = TRUE
