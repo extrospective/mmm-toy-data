@@ -31,6 +31,8 @@ The data sets created by these two files are in the data directory so users do n
 * robyn_toy_data_1paidvar_600000err.csv: one paid media variable is the only driver for bookings
 * robyn_toy_data_2paidvar_balanced_600000err.csv: two paid media each with identical effect and similar spend levels
 * robyn_toy_data_2paidvar_bal_effratio_600000err.csv: two paid media with uneven effect (3:1 ratio) but similar spend levels
+* robyn_toy_data_2paidvar_bal_eff2ratio_600000err.csv: two paid media with uneven effect (2:1 ratio) but similar spend levels
+* robyn_toy_data_2paidvar_bal_eff2ratio_dimret_600000err.csv: two paid media with uneven effect and diminishing returns for one variable
 
 We expect to retire use of this data set:
 * robyn_toy_data_2paidvar_imbalanced_600000err.csv: originally the 2 paid variable data set, but vastly unequal spend is not consistent with typical MMM ground truth or Robyn's approach.
@@ -42,6 +44,8 @@ These scripts can be reviewed to understand how the data sets were created and s
 * MMMToyDataSetOnePaidVar.ipynb: creates data set with one paid variable
 * MMMToyDataSetTwoPaidVarBalancedSpend.ipynb: created data set with two paid variables, balanced spend and effect
 * MMMToyDataSetTwoPaidVarBalSpendEffectRatio.ipynb: creates data set two paid variables, balanced spend but imbalandced and known effect (3:1)
+* MMMToyDataSetTwoPaidVarBalSpendEffect2Ratio.ipynb: creates data set two paid variables, balanced spend but imbalandced and known effect (2:1)
+* MMMToyDataSetTwoPaidVarBalSpendEffect2RatioDimRet.ipynb: creates data set two paid variables, balanced spend and diminishing return for one variable
 
 Expect to retire:
 * MMMToyDataSetTwoPaidVarImbalancedSpend.ipynb: 
