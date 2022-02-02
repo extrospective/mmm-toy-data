@@ -13,7 +13,7 @@ Robyn measures the response curve correctly for paid media with diminishing retu
 Two questions:
 * Is the estimate of the total effect correct?
 * Is the marginal estimate (response curve) correct?
-* 
+
 ## Setup
 
 [Case Diminishing](robyn_output/2022-02-01_18.45_init): Two variables (FB, TV) FB is non-linear in spend and TV
