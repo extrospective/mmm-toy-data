@@ -1,10 +1,10 @@
 # Robyn Response Modeling
 
-**Purpose**: Compare Effectiveness of Robyn in Accurately Detecting Different Response Functions
+**Purpose**: Evaluate Effectiveness of Robyn in Detecting Diminishing Paid Media Response
 
-**How**: Using Two-Variable Toy Data Sets
+**How**: Using Two-Variable Toy Data Set with Diminishing Returns for One Variable (FB)
 
-**Analysis Uses**: Full set of solutions in all_aggregated.csv (not just Pareto Front solutions)
+**Analysis**: pareto_media_transform_matrix.csv (not published to github due to filesize)
 
 ## Null Hypothesis
 
