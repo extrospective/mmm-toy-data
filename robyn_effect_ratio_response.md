@@ -1,10 +1,10 @@
 # Robyn Response to Effect Ratio
 
-Purpose: Compare Effectiveness of Robyn in Accurately Detecting Different Effectiveness Ratios
+**Purpose**: Compare Effectiveness of Robyn in Accurately Detecting Different Effectiveness Ratios
 
-How: Using Two-Variable Toy Data Sets
+**How**: Using Two-Variable Toy Data Sets
 
-Analysis Uses: Full set of solutions in all_aggregated.csv (not just Pareto Front solutions)
+**Analysis Uses**: Full set of solutions in all_aggregated.csv (not just Pareto Front solutions)
 
 ## Hypothesis
 
