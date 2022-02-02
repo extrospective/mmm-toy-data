@@ -35,45 +35,54 @@ Here we simply use the same results from our effect ratio response study
 
 ### Accuracy
 
-The question of accuracy we can take up using the diminishing results only.
+The question of accuracy we can take up using the diminishing results Robyn output files.
 
-On inspection of the various solution png images we can see that FB has a more flat response curve than TV.
-So it appears at first blush that Robyn has successfully detected the diminishing return curve.  But we then
-want to quantify this and ask how accurate is it?
+On inspection of the generated model one-pagers we can see that FB has a more flat response curve than TV.
+So it appears at first blush that Robyn has successfully detected a diminishing return curve.  To quantify, we want to ask how 
+accurate are these curves?
 
 To measure accuracy, we take the output from the pareto_media_transform_matrix.csv, and we plot the 
 decomp_media (response variable) against the raw spend.  We believe this gives us the closest measure of the 
-response and is the basis for generating the response curves we see in solution png files.
+response and is the basis for generating the response curves we see in model one-pagers.
 
 We can overlap these response curves with the ground truth response curve.  We do this in our file
-AnalyzeDiminisingResponseAccuracy.ipynb. 
+[AnalyzeDiminisingResponseAccuracy.ipynb](analysis/AnalyzeDiminishingResponseAccuracy.ipynb)
 
-Here is an example overlaying one response curve with ground truth:
+Here is an example from the ipynb of us overlaying an estimated response curve for one solution with ground truth:
 ![Example png file](robyn_output/2022-02-01_18.45_init/1_396_4_gt_response_compare.png)
 
-We observe two things which is common across Pareto Front 1 solutions:
+In this image, we observe two things which are common across Pareto Front 1 solutions:
 * the response curve from Robyn lies below the ground truth response curve
 * the slope of the response curve from Robyn is similar to the ground truth response curve
+
+#### Level Accuracy
 
 Reviewing all_aggregated.csv we can see the xDecompAgg for all Pareto Front #1 solutions for fb 
 coefficients.  These values average 282 million dollars.   From the ground truth data set we know
 that we were looking for an overall contribution of 362 million.  Robyn has underestimated the total
-effect of fb on our target variable, and this is consistent with the lower solution lines than ground 
-truth lines.
+effect of fb on our target variable, and this is consistent with the lower solution lines for all Pareto Front 1 models.
 
-For slope estimation, we chose the 10 points below the mean and 10 points above the mean to construct
-an estimate of the slope around the mean.  (Selecting only one point below and above on the Robyn curve
-led to more variable values.)  
+#### Slope Accuracy
 
-Across the Pareto Front 1 solutions the mean slope was 64.26, not far off the ground truth of 66.2
-The minimum from any solution was 60.2 and the maximum was 76.2.  
+We wish to estimate the slope around the mean.  The mean is selected since that would be a typical spend
+level.  
 
-From this we estimate that Robyn provided a pretty good estimate of the slope in the diminishing returns
-case.  Furthermore, examination of the generated png files shows that Robyn consistently shows the 
+At first, we tried to estimate the slope by selecting only one point below and above the mean spending level, but
+we found this led to variable results.  To better estimate the slope, we then selected the 10 points closest to the 
+mean spending (but below it) and the 10 points closest to the mean spending which are above the mean.  We took the average
+effects for these two groups to estimate the slope in the vicinity of the mean.
+
+Those slope values are what we have plotted in each graph.
+
+Across all Pareto Front 1 models the mean slope was 64.26, not far off the ground truth of 66.2
+The minimum from any Pareto Front 1 solution was 60.2 and the maximum was 76.2.  
+
+From these observations we feel that Robyn provides a reasonable estimate of the slope in the diminishing returns
+case.  Furthermore, examination of the model one pagers shows that Robyn consistently shows the 
 slope of the FB spend to be more flat than the TV spend in the vicinity of the mean, correctly representing
 that a significant difference exists in marginal impact of spending in these two channels.
 
-Consider this example:
+Consider this one pager:
 ![1_500_1 png file](robyn_output/2022-02-01_18.45_init/1_500_1.png)
 
 Examining the Response Curve chart (middle chart on the right side), Robyn shows that the tv spend
