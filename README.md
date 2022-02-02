@@ -23,6 +23,7 @@ The purpose of these data sets are to support insights and analyses.  Select ana
 
 * [Calibration](calibration.md) - How Robyn calibration performs and is reported
 * [Robyn Effect Ratio Detection](robyn_effect_ratio_response.md) - How Robyn performs when average effects are unequal
+* [Response Modeling](response_modeling.md) - How Robyn performs with paid media variables with diminishing returns
 
 
 ## Data Sets for Robyn
