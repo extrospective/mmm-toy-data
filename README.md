@@ -34,7 +34,8 @@ The data sets created by these two files are in the data directory so users do n
 * robyn_toy_data_2paidvar_balanced_600000err.csv: two paid media each with identical effect and similar spend levels
 * robyn_toy_data_2paidvar_bal_effratio_600000err.csv: two paid media with uneven effect (3:1 ratio) but similar spend levels
 * robyn_toy_data_2paidvar_bal_eff2ratio_600000err.csv: two paid media with uneven effect (2:1 ratio) but similar spend levels
-* robyn_toy_data_2paidvar_bal_eff2ratio_dimret_600000err.csv: two paid media with uneven effect and diminishing returns for one variable
+* robyn_toy_data_2paidvar_bal_eff2ratio_dimret_600000err.csv: two paid media with uneven effect and diminishing returns for fb variable
+* robyn_toy_data_2paidvar_bal_eff2ratio_dimret_carry_600000err.csv: two paid media, uneven effect, dim returns for fb, carryover returns for tv
 
 We expect to retire use of this data set:
 * robyn_toy_data_2paidvar_imbalanced_600000err.csv: originally the 2 paid variable data set, but vastly unequal spend is not consistent with typical MMM ground truth or Robyn's approach.
