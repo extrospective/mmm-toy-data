@@ -45,6 +45,9 @@ To measure accuracy, we take the output from the pareto_media_transform_matrix.c
 decomp_media (response variable) against the raw spend.  We believe this gives us the closest measure of the 
 response and is the basis for generating the response curves we see in model one-pagers.
 
+(One note: the Robyn generated one-pagers uses adstockedMedia for the x-axis; since our theta is nearly zero this is 
+close enough for us but there may be contexts where that adstockedMedia should be used instead.)
+
 We can overlap these response curves with the ground truth response curve.  We do this in our file
 [AnalyzeDiminisingResponseAccuracy.ipynb](analysis/AnalyzeDiminishingResponseAccuracy.ipynb)
 
