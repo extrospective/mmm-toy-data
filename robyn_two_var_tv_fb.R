@@ -13,15 +13,15 @@ library('reticulate')
 #
 # Key configuration items
 # 
-source_file = "../mmm-toy-data/data/robyn_toy_data_2paidvar_bal_eff2ratio_600000err.csv"   
+source_filwindow_start = "2021-01-01"                        # Robyn window start
+window_end = "2021-12-31"                          # Robyn window end
+trials =  5                                        # Robyn trials
+iterations = 2000                                  # Robyn iterations
+e = "../mmm-toy-data/data/robyn_toy_data_2paidvar_bal_eff2ratio_dimret_600000err.csv"   
                                                    # csv file with the source data
 robyn_version_expected = '3.4.8.6'                 # assert correct version of Robyn
 output_working_directory = 'e:\\repo\\robyn-mmm'   # where output will be stored
 country_filter = "US"                              # for prophet to know country
-window_start = "2021-01-01"                        # Robyn window start
-window_end = "2021-12-31"                          # Robyn window end
-trials =  5                                        # Robyn trials
-iterations = 2000                                  # Robyn iterations
 envname = 'never2'                                 # name of conda env setup for nevergrad
 set.seed(45)                                       # repeatability
 options(digits=12)                                 # dataframe printing
@@ -90,6 +90,7 @@ holidays_none = data_frame (
 # typically not modified
 date_format = "%m/%d/%Y"                                                        # format of date in csv file
 robyn_object <- paste0("output/mmm_", format(Sys.Date(), "%Y_%m_%d"), ".RDS")   # where to store output from run
+plot_folder_sub = paste0(format(Sys.time(), "%Y-%m-%d_%H.%M"), "_init")
 optimal_cores = future::availableCores() - 2
 
 src_dt<- read.csv(source_file, header=TRUE, sep=',') 
@@ -174,6 +175,7 @@ print('robyn_run started')
 OutputCollect <- robyn_run(
   InputCollect = InputCollect # feed in all model specification
   , plot_folder = robyn_object # plots will be saved in the same folder as robyn_object
+  , plot_folder_sub = plot_folder_sub
   , pareto_fronts = 3
   , csv_out = "all"  # code modification to ensure all csv output in our fork of Robyn
   # we are using seed above only and do not want to put it here as well  , seed=seed
