@@ -49,8 +49,12 @@ generates this data set](MMMToyDataSetTwoPaidVarBalSpendEffect2RatioDimRetCarryo
 
 ### Geometric Adstock Charts
 
+#### TV shows greater adstock percentage in new analysis
+
 We expect TV to show a greater adstock percentage than TV, and indeed we see that as in:
 ![pareto_3_425_4](robyn_output/2022-02-03_19.21_init/3_425_4.png)
+
+#### But FB also sometimes has greater adstock percentage
 
 One observation is that in some models, the FB adstock departs significantly from zero also, although
 it may remains less than TV, as in:
@@ -58,6 +62,8 @@ it may remains less than TV, as in:
 
 We expected the FB adstock to be close to 0%.  So it is possible that having some carryover for TV
 contaminated the measurement of carryover for FB.
+
+#### Prior analysis with same exact FB data has lower adstock percentage
 
 We contrast this with the results from our diminishing study, where Robyn correctly estimated the 
 geometric adstock decay rates at close to zero.
@@ -89,3 +95,28 @@ Consider:
 
 In this chart we see a steeper response curve for the FB line in the middle right section.
 This was typical of one pagers examined.
+
+
+## Quantitative Findings
+
+### Data Set with Carryover (FB diminishing): 2022-02-03_19.21_init
+
+10 models are on Pareto Front 1.  We analyze those data sets.
+
+* TV theta: Average 0.198, range 0.191-0.200
+* FB theta: Average 0.042, range 0.014-0.098
+
+The mathematics for our initial model setup was to assume about a 80% carryover of spend from one day
+to the next.  We are unclear if that is identical to the [ad-stock theta percentage described](https://facebookexperimental.github.io/Robyn/docs/analysts-guide-to-MMM).
+We might have expected TV thetas closer to 0.80 rather than 0.20, but have not rigorously calculated the implied atstock in our model 
+for comparison.
+
+### Data Set without Carryover (FB diminishing): 2022-02-01_18.45_init
+
+23 models on Pareto Front 1 (so min/max may have wider range).
+
+* TV Theta: Average 0.006, max 0.036
+* FB Theta: Average 0.004, max 0.018
+
+Conclusion - the carryover for TV in the data seems to cause Robyn to predict a carryover effect for FB
+which (while small) is about 10x larger than a data set without TV carryover.
