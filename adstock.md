@@ -1,6 +1,6 @@
-# Adstock Test
+# Geometric Adstock Test
 
-**Purpose**: Evaluate Effectiveness of Robyn in Detecting Carryover in Adstock
+**Purpose**: Evaluate Effectiveness of Robyn in Detecting Carryover in Geometric Adstock
 
 **How**: Using Two-Variable Toy Data Set with Diminishing Returns for One Variable (FB) and Carryover for Second (TV)
 
@@ -9,6 +9,11 @@
 **Data Set**: robyn_toy_data_2paidvar_bal_eff2ratio_dimret_carry_600000err.csv [described in README](README.md).
 
 **Output**: 2022-02-03_19.21_init
+
+**Findings**:
+* Robyn does detect geometric adstock effect for TV variable
+* It seems that having TV adstock effects causes Robyn to over-estimate adstock effect for a variable which has none
+* Further quantitative research is recommended
 
 ## Input
 
