@@ -40,8 +40,11 @@ The logic:
 ```
 
 is intended to cause TV contribution to carryover with a diminishing amount per day (shift(N) means N days earlier
-spend).  The tv_scale was selected so the total contribution of TV to bookings would be roughly comparable to the
-FB contribution to bookings. For 2021, the TV contribution in the data set is expected to be about 372 million,
+spend).  The tv_scale (45) was selected so the total contribution of TV to bookings would be roughly comparable to the
+FB contribution to bookings.
+
+In the data set, the contribution which was used to set the bookings is parceled out among tv_contribution, fb_contribution, and a constant.
+Therefore, we can see that for 2021 (period of analysis), the TV contribution in the data set is expected to be about 372 million,
 whereas the FB contribution should be about 363 million.  These figures are available in the [ipynb which
 generates this data set](MMMToyDataSetTwoPaidVarBalSpendEffect2RatioDimRetCarryover.ipynb).
 
@@ -61,23 +64,22 @@ it may remains less than TV, as in:
 ![pareto_3_444_3](robyn_output/2022-02-03_19.21_init/3_444_3.png)
 
 We expected the FB adstock to be close to 0%.  So it is possible that having some carryover for TV
-contaminated the measurement of carryover for FB.
+contaminated the measurement of carryover for FB.  It is interesting to know whether this is indeed connected in some way.
 
 #### Prior analysis with same exact FB data has lower adstock percentage
 
-We contrast this with the results from our diminishing study, where Robyn correctly estimated the 
-geometric adstock decay rates at close to zero.
+We contrast our findings for TV and FB carryover with the results from our diminishing study, where Robyn correctly estimated the 
+geometric adstock decay rates at close to zero.  Reviewing one-pagers we see that the estimated thetas (lower left chart)
+are closer to zero for tv and fb than in this analysis.  And the FB calculation should be identical in both models.
 
-For example:
+For example we see the small values for TV and FB in this one pager:
 ![pareto_1_396_4](robyn_output/2022-02-01_18.45_init/1_396_4.png)
 
-and:
+and here:
 ![pareto_1_441_4](robyn_output/2022-02-01_18.45_init/1_441_4.png)
 
-and:
+and here:
 ![pareto_1_492_3](robyn_output/2022-02-01_18.45_init/1_492_3.png)
-
-
 
 
 ### Response Curve
@@ -96,10 +98,16 @@ Consider:
 In this chart we see a steeper response curve for the FB line in the middle right section.
 This was typical of one pagers examined.
 
+Quantitative analysis may be required to determine whether there is an issue here.
+
 
 ## Quantitative Findings
 
-### Data Set with Carryover (FB diminishing): 2022-02-03_19.21_init
+### Geometric Adstock
+
+We are using Geometric adstock for all Robyn runs to date.
+
+#### Data Set with Carryover (FB diminishing): 2022-02-03_19.21_init
 
 10 models are on Pareto Front 1.  We analyze those data sets.
 
@@ -111,12 +119,18 @@ to the next.  We are unclear if that is identical to the [ad-stock theta percent
 We might have expected TV thetas closer to 0.80 rather than 0.20, but have not rigorously calculated the implied atstock in our model 
 for comparison.
 
-### Data Set without Carryover (FB diminishing): 2022-02-01_18.45_init
+#### Data Set without Carryover (FB diminishing): 2022-02-01_18.45_init
 
 23 models on Pareto Front 1 (so min/max may have wider range).
 
 * TV Theta: Average 0.006, max 0.036
 * FB Theta: Average 0.004, max 0.018
 
-Conclusion - the carryover for TV in the data seems to cause Robyn to predict a carryover effect for FB
-which (while small) is about 10x larger than a data set without TV carryover.
+Conclusion - the carryover for TV in the data seems to *cause* Robyn to predict a carryover effect for FB
+which (while small) is about 10x larger than a data set without TV carryover.  So there is an interesting interaction where
+thetas may be overstated for one variable because another variable has a non-zero theta.  We recommend
+further investigation to understand this effect.
+
+### Response Function
+
+We recommend quantitative review of the response function for the carryover model.
