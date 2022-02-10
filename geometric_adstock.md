@@ -1,4 +1,7 @@
-# Geometric Adstock Test
+# WARNING: Redoing these results; the possible Theta is capped by our configuration and we need to rerun and publish.
+
+## Geometric Adstock Test
+
 
 **Purpose**: Evaluate Effectiveness of Robyn in Detecting Carryover in Geometric Adstock
 
