@@ -36,7 +36,7 @@ TV spend: 50.185104%
 FB contribution %: 74.861%
 TV contribution = 1-FB contribution
 
-ground truth RSSD = sqrt ( 2 * ((0.665019264-0.49814896)^2)) = 0.3542
+ground truth RSSD = sqrt ( 2 * ((0.74861-0.49814896)^2)) = 0.3542
 
 ![Pareto Front Case 1](robyn_output/2022-01-28_18.52_init/pareto_front.png)
 
@@ -50,7 +50,7 @@ Looking at the full set of solutions (all_aggregated.csv), the solution with clo
 3_60_2 which has a nrmse of 0.026199 and decomp.rssd of 0.354104.  This point is in a thicket
 of points in the vicinity of this ground truth rssd.
 
-Looking at points with rssd between 0.353 and 0.355, the lowest NRMSE is 0.226 which is already 
+Looking at points with rssd between 0.353 and 0.355, the lowest NRMSE is 0.0226 which is already 
 substantially worse than the lowest NRMSE solutions.  Two solutions (1_333_6 and 4_329_4) have
 NRMSE just below 0.02 (rounded to 0.02) and these have decomp RSSD of 0.308 and 0.290 respectively
 with FB effect share at 71.6% and 70.3% a few points below ground truth FB contribution.
@@ -83,7 +83,7 @@ The highest decomp.RSSD in the three Pareto Fronts is 0.171 falling considerably
 ground truth rssd = 0.236.
 
 Reviewing solutions with decomp.rssd between 0.235 and 0.237, the NRMSEs vary from 0.023 to 0.067.
-The value of 0.023 is significantly worse than the lowest NRMSEs of 0.1768 which occur for two
+The value of 0.023 is significantly worse than the lowest NRMSEs of 0.01768 which occur for two
 different solutions (1_285_6 and 5_316_2) both of which are on the first Pareto Front.
 
 Those Pareto Front solutions estimate a 62% effect of FB spending and 38% for TV spending,
