@@ -1,22 +1,18 @@
-# WARNING: Redoing these results; the possible Theta is capped by our configuration and we need to rerun and publish.
-
 ## Geometric Adstock Test
-
 
 **Purpose**: Evaluate Effectiveness of Robyn in Detecting Carryover in Geometric Adstock
 
 **How**: Using Two-Variable Toy Data Set with Diminishing Returns for One Variable (FB) and Carryover for Second (TV)
 
-**Analysis**: pareto_media_transform_matrix.csv (not published to github due to filesize)
+**Analysis**: all_hyperparameters.csv
 
 **Data Set**: robyn_toy_data_2paidvar_bal_eff2ratio_dimret_carry_600000err.csv [described in README](README.md).
 
-**Output**: 2022-02-03_19.21_init
+**Output**: 2022-02-10_15.50_init
 
-**Findings**:
-* Robyn does detect geometric adstock effect for TV variable
-* It seems that having TV adstock effects causes Robyn to over-estimate adstock effect for a variable which has none
-* Further quantitative research is recommended
+**Findings**: 
+* Robyn does detect and *estimates accurately* geometric adstock effect for TV variable
+* Robyn *underestimates* impact on bookings for both variables in our example
 
 ## Input
 
@@ -24,7 +20,7 @@ FB contribution is generated with diminishing returns to spend, but no carryover
 
 TV contribution includes a carryover effect which lasts up to 10 days after each expenditure.
 
-The logic:
+The toy data set logic:
 ```angular2html
     #
     # tv: carryover
@@ -63,82 +59,51 @@ generates this data set](MMMToyDataSetTwoPaidVarBalSpendEffect2RatioDimRetCarryo
 #### TV shows greater adstock percentage in new analysis
 
 We expect TV to show a greater adstock percentage than TV, and indeed we see that as in:
-![pareto_3_425_4](robyn_output/2022-02-03_19.21_init/3_425_4.png)
-
-#### But FB also sometimes has greater adstock percentage
-
-One observation is that in some models, the FB adstock departs significantly from zero also, although
-it may remains less than TV, as in:
-![pareto_3_444_3](robyn_output/2022-02-03_19.21_init/3_444_3.png)
-
-We expected the FB adstock to be close to 0%.  So it is possible that having some carryover for TV
-contaminated the measurement of carryover for FB.  It is interesting to know whether this is indeed connected in some way.
-
-#### Prior analysis with same exact FB data has lower adstock percentage
-
-We contrast our findings for TV and FB carryover with the results from our diminishing study, where Robyn correctly estimated the 
-geometric adstock decay rates at close to zero.  Reviewing one-pagers we see that the estimated thetas (lower left chart)
-are closer to zero for tv and fb than in this analysis.  And the FB calculation should be identical in both models.
-
-For example we see the small values for TV and FB in this one pager:
-![pareto_1_396_4](robyn_output/2022-02-01_18.45_init/1_396_4.png)
-
-and here:
-![pareto_1_441_4](robyn_output/2022-02-01_18.45_init/1_441_4.png)
-
-and here:
-![pareto_1_492_3](robyn_output/2022-02-01_18.45_init/1_492_3.png)
+![pareto_5_479_1](robyn_output/2022-02-10_15.50_init/5_479_1.png)
 
 
 ### Response Curve
 
-When studying the [diminshing effects response curve](response_modeling.md), we found that Robyn correctly 
-distinguished FB as having a flatter effect from TV.  We are a bit surprised that in the case of 
-carryover adstock, the TV effect now appears to be more flat than the FB effect.
-
-Our sense is that the response to spend diagram should show the reverse. But we are not yet sure,
-as the actual mathematics behind the model one-pager is adstock on the x-axis although the graph is labelled
-spend.
-
-Consider:
-![pareto_3_425_4](robyn_output/2022-02-03_19.21_init/3_425_4.png)
-
-In this chart we see a steeper response curve for the FB line in the middle right section.
-This was typical of one pagers examined.
-
-Quantitative analysis may be required to determine whether there is an issue here.
+The current response curve charts may be a bit difficult for stakeholders to understand when carryover
+is significant, as the x-axis is labelled "Spend" and a mean data point is shown in term of spend, but the
+curve is actually in terms of AdStock effects, which in this case is much higher than spend and does not
+intersect with the spend point on these charts.
 
 
-## Quantitative Findings
-
-### Geometric Adstock
+## Quantitative Findings: Geometric Adstock
 
 We are using Geometric adstock for all Robyn runs to date.
 
-#### Data Set with Carryover (FB diminishing): 2022-02-03_19.21_init
+* Data Set with Carryover (FB diminishing): 2022-02-10_15.50_init
 
-10 models are on Pareto Front 1.  We analyze those data sets.
+### Theta Estimation (Carryover)
 
-* TV theta: Average 0.198, range 0.191-0.200
-* FB theta: Average 0.042, range 0.014-0.098
+10 models are on Pareto Front 1.  We analyze the range of hyperparameters found in these sets (all_hyperparameters.csv):
+
+* TV theta: Range 0.791-0.792
+* FB theta: 0.01-0.04 (most around 0.01)
 
 The mathematics for our initial model setup was to assume about a 80% carryover of spend from one day
-to the next.  We are unclear if that is identical to the [ad-stock theta percentage described](https://facebookexperimental.github.io/Robyn/docs/analysts-guide-to-MMM).
-We might have expected TV thetas closer to 0.80 rather than 0.20, but have not rigorously calculated the implied atstock in our model 
-for comparison.
+to the next.  We are unclear if our 0.8 is identical to the [ad-stock theta percentage described](https://facebookexperimental.github.io/Robyn/docs/analysts-guide-to-MMM).
+However, it appears the Robyn model estimated the TV theta fairly precisely and landed at the number input
+in the toy data set.
 
-#### Data Set without Carryover (FB diminishing): 2022-02-01_18.45_init
+### Contribution to Bookings Estimation
 
-23 models on Pareto Front 1 (so min/max may have wider range).
+* FB is estimated to contribute $258 million to bookings (mean for Pareto Front 1), with a range on this front from
+$214 million to $272 million.
+* TV is estimated to contribute $267 million to bookings (mean), with a range from $266 million to $271 million.
 
-* TV Theta: Average 0.006, max 0.036
-* FB Theta: Average 0.004, max 0.018
+Both estimates of contributions fell short of the values in the input data set, by about $100 million on $363-$372 million.
 
-Conclusion - the carryover for TV in the data seems to *cause* Robyn to predict a carryover effect for FB
-which (while small) is about 10x larger than a data set without TV carryover.  So there is an interesting interaction where
-thetas may be overstated for one variable because another variable has a non-zero theta.  We recommend
-further investigation to understand this effect.
+Robyn seems to underestimate the impact on bookings. One possible contributor is that Robyn has assigned an $80 million
+contribution to trend on average across these models, ranging from $31 million to $132 million.
 
-### Response Function
+## Further Notes When Examining Hyperparameters
 
-We recommend quantitative review of the response function for the carryover model.
+It is imperative that the hyperparameter range is sufficient to allow this type of modeling.
+An earlier version of this analysis, 2022-02-03_19.21_init, was impacted by the fact that theta was
+overly constrained.
+
+Users should always review hyperparmeters.png and look for evidence of overly constrained search spaces.  
+One indicator would be seeing hyperparameters pinned up against one end of a search range.
