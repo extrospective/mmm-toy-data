@@ -8,6 +8,8 @@
 
 **Data Set**: robyn_toy_data_2paidvar_bal_eff2ratio_dimret_carry_600000err.csv [described in README](README.md).
 
+**Options**: tv_theta set to 0-0.999 for this analysis
+
 **Output**: 2022-02-10_15.50_init
 
 **Findings**: 
