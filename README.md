@@ -25,6 +25,7 @@ The purpose of these data sets are to support insights and analyses.  Select ana
 * [Robyn Effect Ratio Detection](robyn_effect_ratio_response.md) - How Robyn performs when average effects are unequal
 * [Response Modeling: Diminishing Returns](response_modeling.md) - How Robyn performs with paid media variables with diminishing returns
 * [Geometric Adstock](geometric_adstock.md) - How Robyn Geometric Adstock performs with marketing with carryover effects
+* [Budget Allocation](budget_allocation.md) - How Robyn performs budget allocation for paid media variables with diminishing returns
 
 ## Data Sets for Robyn
 

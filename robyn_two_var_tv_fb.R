@@ -189,5 +189,12 @@ stop()
 ################################################################
 #### Step 4: Select and save the initial model
 
+# budget allocation
 
+# select a particular model
+select_model = '1_248_6'
 
+# this version has bug where channel_constr_low and channel_construct_up must have same length as paid_media_vars (2)
+channel_constr_low = c(0.6, 0.6)  # NOTE: this line will essentially restrict the range of solutions the optimizer could consider
+channel_constr_up = c(20, 20)
+alloc = robyn_allocator(InputCollect=InputCollect, OutputCollect=OutputCollect, select_model=select_model, channel_constr_low=channel_constr_low, channel_constr_up=channel_constr_up)
