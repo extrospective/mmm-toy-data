@@ -13,11 +13,11 @@ library('reticulate')
 #
 # Key configuration items
 # 
-source_filwindow_start = "2021-01-01"                        # Robyn window start
+window_start = "2021-01-01"                        # Robyn window start
 window_end = "2021-12-31"                          # Robyn window end
 trials =  5                                        # Robyn trials
 iterations = 2000                                  # Robyn iterations
-e = "../mmm-toy-data/data/robyn_toy_data_2paidvar_bal_eff2ratio_dimret_600000err.csv"   
+source_file = "../mmm-toy-data/data/robyn_toy_data_2paidvar_bal_eff2ratio_dimret_600000err.csv"   
                                                    # csv file with the source data
 robyn_version_expected = '3.4.8.6'                 # assert correct version of Robyn
 output_working_directory = 'e:\\repo\\robyn-mmm'   # where output will be stored
