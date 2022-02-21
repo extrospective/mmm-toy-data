@@ -198,3 +198,31 @@ select_model = '1_248_6'
 channel_constr_low = c(0.6, 0.6)  # NOTE: this line will essentially restrict the range of solutions the optimizer could consider
 channel_constr_up = c(20, 20)
 alloc = robyn_allocator(InputCollect=InputCollect, OutputCollect=OutputCollect, select_model=select_model, channel_constr_low=channel_constr_low, channel_constr_up=channel_constr_up)
+
+
+# run with future spend
+
+if (FALSE) {
+  AllocatorCollect <- robyn_allocator(
+    InputCollect=InputCollect, 
+    OutputCollect=OutputCollect, 
+    select_model=select_model,
+    scenario = "max_response_expected_spend",
+    channel_constr_low = c(0.01, 0.01),
+    channel_constr_up = c(20, 20),
+    expected_spend = 3608511,  # match historical for this test
+    expected_spend_days = 365
+  )
+  
+  
+  AllocatorCollect <- robyn_allocator(
+    InputCollect=InputCollect, 
+    OutputCollect=OutputCollect, 
+    select_model=select_model,
+    scenario = "max_response_expected_spend",
+    channel_constr_low = c(2, 2),
+    channel_constr_up = c(2, 2),
+    expected_spend = 3608511*2,  # double th spend in the future
+    expected_spend_days = 365
+  )
+}

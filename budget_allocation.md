@@ -6,14 +6,21 @@
 
 **Analysis**: running robyn_allocator
 
+**Version**: Robyn 3.4.8
+
 Since documentation may be light on running budget allocation, we also fill in the process
 so users can readily execute allocation.
 
-## Script
+# Findings
+
+The budget allocator worked largely as described.  There are some minor comments about marginal v. average ROI,
+but few surprises occurred here.   We hope this page can help a new user get up and running even faster.
+
+# Script
 
 We start with the R script robyn_two_var_tv_fb.R and added code to run the budget allocation.
 
-### robyn_allocator
+## robyn_allocator
 
 Robyn_allocator() requires either an object, or the combination of InputCollect, OutputCollect and 
 a selected model (select_model).  We executed the toy data set model fitting, and then selected model
@@ -76,7 +83,7 @@ run shows a higher optmRoiUnit for FB than TV, but as FB has hit a lower constra
 will be seeking equality for these ROIs.
 ```
 
-#### Comparing initResponseUnitTotal with Waterfall
+### Comparing initResponseUnitTotal with Waterfall
 
 Waterfall Bookings Contribution (xDecompAgg):
 * FB: 225,266,932
@@ -92,11 +99,11 @@ Multiplying the initResponseUnits by 365 (days) we get:
 
 Interestingly these are very close but not identical to the waterfall figures for 1_248_6.
 
-### Visualization
+## Visualization
 
 After the reallocation is run, the budget allocation will produce output showing the optimized spend levels.
 
-Initial solution:
+Initial one-pager produced by Robyn for 1_248_6:
 ![1_248_6](robyn_output/2022-02-21_18.56_init/1_248_6.png)
 
 Reallocated solution (with constraint of 0.5 / 2.0):
@@ -104,9 +111,9 @@ Reallocated solution (with constraint of 0.5 / 2.0):
 ![1_248_6_reallocated_1](robyn_output/2022-02-21_18.56_init/1_248_6_reallocated_1.png)
 
 
-### Re-running with fewer constraints
+## Re-running with fewer constraints
 
-Robyn limits the possible inputs:
+Robyn limits the possible input for lower and upper channel spend shift:
 * channel_constr_low must be 0.01 or greater.  You cannot zero a channel, but must spend 1% of historical spend.
 * channel_constr_up generates an "unrealistic warning" if 5 or greater is supplied.
 
@@ -117,6 +124,8 @@ We re-ran with 0.01 and 20, so we could remove constraint effects in the solutio
 
 Indeed, we see a further reallocation from our hypothetical FB to TV variables with the constraint removed, and in this
 case the optimizer has not driven all the way to the constraint.
+
+Reallocated solution without constraint:
 
 ![1_248_6_reallocated_2](robyn_output/2022-02-21_18.56_init/1_248_6_reallocated_2.png)
 
@@ -148,4 +157,72 @@ And with your handy spreadsheet you have something to discuss with your stakehol
 ![excel_illustration](robyn_output/2022-02-21_18.56_init/excel_illustration.png)
 
 
+## Future Response with robyn_allocator()
+
+### Repeating History
+
+robyn_allocator() purports to run future spend allocations as alternative to historical spend allocations.
+It seems that this assumes the future context and non-paid-media variables are behaving essentially the same as
+in the historic period (including seasonal effects). 
+
+One test for this future spend would be to send robyn_allocator exactly the figures used in the historic period
+with the same constraints and determine whether the reallocated solution is identical to the historical one.
+
+Code to run future mode with historical data:
+
+```angular2html
+AllocatorCollect <- robyn_allocator(
+  InputCollect=InputCollect, 
+  OutputCollect=OutputCollect, 
+  select_model=select_model,
+  scenario = "max_response_expected_spend",
+  channel_constr_low = c(0.01, 0.01),
+  channel_constr_up = c(20, 20),
+  expected_spend = 3608511,  # match historical for this test
+  expected_spend_days = 365
+)
+```
+
+The result of this run was substantively equivalent to the historic run.  A few values differed by 
+inconsequential amounts, but the effect was identical.
+
+### Doubling History
+
+In this case, we doubled the expenditures from the historical period to determine how robyn_allocator() would
+allocate and report on the additional funds.
+
+In our case:
+* histSpendTotal: 3,608,511
+* expSpendTotal: 2 * histSpendTotal = 7,217,022
+
+We see some interesting differences in results:
+* At historic levels, FB spend share is optimally 13% (TV remainder)
+* At double historic levels, FB spend share is optimally 20%
+
+While the optimal ROI per unit do not match in the historic case (227 and 171), we see roughly 
+equal values here at 142.8 and 142.3.  As we said above, I think these are average not marginal values, so the 
+analyst should reflect on what is desired here.
+
+The lift is calculated at 93% instead of 21%.  Thus, the reported lift is not adjusted for the
+increased expenditure level.
+
+We can compute the total response as 2,815,527 and the total investment of 7,217,022.
+The lift calculation used here is relative to the response from the original investment 1,462,064.
+
+An analyst should understand that this lift is the sum of optimization and increased spend, rather than
+simply one of these.  And since the percentage spend allocation is different at higher scale, one might ponder
+before simply taking the difference to estimate the scale effect.
+
+### Estimating Scale Effects v. Shift Effects
+
+One method to estimate scale effects might be to increase the spend and maintain the proportion, and then separately 
+examine the effect of shifting proportion.
+
+Setting the channel_constr_low and _up to 1.0 does not work with robyn_allocator()
+because the current logic prevents the expenditures from
+scaling in this case.  Therefore, we next try setting _up and _low to 2.0 when doubling the expenditures.
+
+Setting both to 2.0 we obtain a 71% lift effect from scaling up the investment.
+We had a shift effect of 21% at the initial level.
+And the remaining 1% of the 93% lift is attributable either or both to the scaling and shift.
 
