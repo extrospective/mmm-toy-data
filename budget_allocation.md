@@ -283,7 +283,6 @@ AllocatorCollect <- robyn_allocator(
 Verifying results:
 * optmSpendUnitDelta=1 for one channel, and 0 for the second channel.
 
-
 Cautions:
 * channel_constr_low and _up are in a particular sequence and this is not the same order of rows in the resulting .csv file.
 
@@ -294,3 +293,53 @@ InputCollect$paid_media_spends
 
 Ideally, the channel_constr_low and _up should be a dictionary rather than a list so mistakes can be avoided.
 Currently, the sequence will match the paid media sequence passed into the InputCollect by the user.
+
+#### Complex Case: Adjusting multiple channels
+
+Here we illustrate planning an adjustment where one channel is reduced by 20% and the other increased by 50%.
+If we want fully consistent results, we also calculate the new expected spend so we are letting the analysis
+show that constraint (which otherwise could be inconsistent).
+
+![excel_illustration](robyn_output/2022-02-21_18.56_init/excel_planning.png)
+
+We then pass this into the allocator:
+```angular2html
+  AllocatorCollect <- robyn_allocator(
+    InputCollect=InputCollect, 
+    OutputCollect=OutputCollect, 
+    select_model=select_model,
+    scenario = "max_response_expected_spend",
+    channel_constr_low = c(1.5, 0.8),
+    channel_constr_up = c(1.5, 0.8),
+    expected_spend = 4154463,  # ideally one would double the first channel and input the value here
+    expected_spend_days = 365
+  )  
+```
+*Pay attention to the paid media channel order.  We have forced the lower and upper constraint to be identical
+so the optimizer has no interesting work to do.  This is simply a what-if for the user.*
+
+The result shows a 26.8% lift, which as we indicated before is the result both of shifting and scaling paid
+media investment.
+
+The optimal response total is 1,853,717 which is 26.8% higher than the initial $1,462,064.
+Both figures have to be multiplied by number of days to loosely correspond to the original waterfall and results:
+$534 million increased to $677 million.
+
+The cost for this increase should be obtained from optmSpendUnitTotal times 365 (more reliable than expSpend if 
+inconsistency arises.)  Comparing this to the initSpendUnitTotal, we see that we have increased our total paid media
+investment from $3.6 million to $4.2 million to produce this increase.
+
+Of course, these are all hypothetical relationships and values, and this illustration is intended to show how
+the robyn_allocator() could be applied to what-if problems.
+
+
+
+### Interpretation of what-if at full time scale
+
+The optimal response unit is for a single unit of time (typically a day).
+
+Options to scale up the response:
+* Apply the lift to the original waterfall or scaled variables.  (This may make sense if the stakeholders 
+are deeply connected to the waterfall figures, and seems like a sensible approximation of scaling those variables.)
+* Scale the optimal response unit by the number of time units (perhaps 365 days) to get the full period effect.
+
