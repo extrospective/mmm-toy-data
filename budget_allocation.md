@@ -14,7 +14,16 @@ so users can readily execute allocation.
 # Findings
 
 The budget allocator worked largely as described.  There are some minor comments about marginal v. average ROI,
-but few surprises occurred here.   We hope this page can help a new user get up and running even faster.
+but few surprises occurred here.
+
+We observe that the allocator uses an average daily spend, and therefore would be less accurate in cases where
+high variance exists across units of time (days typically) in paid search.  While robyn_allocator() uses one 
+point on the curve, representing this mean investment, the waterfall and model approaches are rolling through
+a pattern of paid media which is variable and draws from different places on the curve.
+
+One consequence is that the resulting figures from the budget allocator may not match the waterfall exactly, and another
+is to recognize that the allocator exists for a broad stroke projection, not a detailed forecast which might include
+daily planning along with relevant context and seasonal considerations.
 
 # Script
 
@@ -89,7 +98,7 @@ Waterfall Bookings Contribution (xDecompAgg):
 * FB: 225,266,932
 * TV: 299,734,164
 
-reallocated.csv initResponseUnit:
+reallocated.csv initResponseUnit (daily values):
 * FB: 628,698
 * TV: 833,365
 
@@ -98,6 +107,15 @@ Multiplying the initResponseUnits by 365 (days) we get:
 * TV: 304,178,370
 
 Interestingly these are very close but not identical to the waterfall figures for 1_248_6.
+Therefore the *baseline* for allocator comparisons are not identical with the waterfall.  One could probably use
+the lifts produced by the allocator directly, but if one uses the "optimal response" from the allocator and compares
+with the waterfall figures, the percentages will vary.  We feel the use of this lift may be more appropriate (consistent)
+than mixing the numbers from the two systems.
+
+*Our current hypothesis is that robyn_allocator() uses the response function from the average daily spend, whereas
+the waterfall is based on actual model history with a daily adstock progression and therefore reflects what actual
+values are used from the response function each day.  This difference is important to understand when one engages
+in a reallocation, as this will not tie directly to the waterfall figures.*
 
 ## Visualization
 
@@ -226,3 +244,53 @@ Setting both to 2.0 we obtain a 71% lift effect from scaling up the investment.
 We had a shift effect of 21% at the initial level.
 And the remaining 1% of the 93% lift is attributable either or both to the scaling and shift.
 
+## What-If Analysis
+
+robyn_allocator() could be leveraged for full what-if analysis.
+
+In this case, one wants to shut down the optimizer, and essentially use robyn_allocator() to calculate
+the effect of proposed expenditures.
+
+### Why would we take this approach?
+
+The Robyn team has developed the mathematical logic for response curves, and it may prove better to leverage
+the Robyn code directly than write additional code which produces these response calculations.  While one's own
+function  might work, it creates significant technical maintenance risk one might avoid.
+
+### How to accomplish what-if analysis
+
+The current implementation of robyn_allocator() has constraints per channel on spend (lower bound and upper bound)
+relative to the historic spend.  This constraint supercedes providing any data on the total expenditures (when the
+two come into conflict, the xxx_reallocated.csv reflects the constraints and shows inconsistent optimized
+spend and total expenditures).  Therefore, one needs to set the constraints correctly to adjust the optimizer.
+
+#### Simple Case: Doubling a Channel
+
+Here one doubles one channel and not the other:
+```
+AllocatorCollect <- robyn_allocator(
+  InputCollect=InputCollect, 
+  OutputCollect=OutputCollect, 
+  select_model=select_model,
+  scenario = "max_response_expected_spend",
+  channel_constr_low = c(2, 1),
+  channel_constr_up = c(2, 1),
+  expected_spend = 5406087,  # ideally one would double the first channel and input the value here
+  expected_spend_days = 365
+)
+```
+
+Verifying results:
+* optmSpendUnitDelta=1 for one channel, and 0 for the second channel.
+
+
+Cautions:
+* channel_constr_low and _up are in a particular sequence and this is not the same order of rows in the resulting .csv file.
+
+This code shows the sequence of variables which channel_constr_low and _up must match:
+```angular2html
+InputCollect$paid_media_spends
+```
+
+Ideally, the channel_constr_low and _up should be a dictionary rather than a list so mistakes can be avoided.
+Currently, the sequence will match the paid media sequence passed into the InputCollect by the user.
