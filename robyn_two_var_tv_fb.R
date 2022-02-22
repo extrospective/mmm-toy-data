@@ -19,7 +19,7 @@ trials =  5                                        # Robyn trials
 iterations = 2000                                  # Robyn iterations
 source_file = "../mmm-toy-data/data/robyn_toy_data_2paidvar_bal_eff2ratio_dimret_600000err.csv"   
                                                    # csv file with the source data
-robyn_version_expected = '3.4.8.6'                 # assert correct version of Robyn
+robyn_version_expected = '3.5.0.2'                 # assert correct version of Robyn
 output_working_directory = 'e:\\repo\\robyn-mmm'   # where output will be stored
 country_filter = "US"                              # for prophet to know country
 envname = 'never2'                                 # name of conda env setup for nevergrad
@@ -39,10 +39,10 @@ context_signs = c()                               # could be c('default')
 
 # match number of media variables here; may need fb
 hyperparameters <- list(
-  tv_alphas = c(0, 2.0)  
+  tv_alphas = c(0.001, 2.0)  
   , tv_gammas = c(0.3, 1.0)
   , tv_thetas = c(0, 0.2) 
-  , fb_alphas = c(0, 2.0)
+  , fb_alphas = c(0.001, 2.0)
   , fb_gammas = c(0.3, 1.0)
   , fb_thetas = c(0, 0.2)
 )
@@ -181,6 +181,7 @@ OutputCollect <- robyn_run(
   # we are using seed above only and do not want to put it here as well  , seed=seed
   , plot_pareto = TRUE  # can make FALSE To save time but then we dont have the output images
   , unconstrained_intercept = TRUE  # allows negative intercept in our fork of Robyn
+  , saveInputCollectSelector = TRUE # save the input collector because we will need it for the allocator to be pulled up separately
 )
 print('robyn_run complete')
 
