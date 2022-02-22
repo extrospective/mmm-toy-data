@@ -220,9 +220,31 @@ if (FALSE) {
     OutputCollect=OutputCollect, 
     select_model=select_model,
     scenario = "max_response_expected_spend",
-    channel_constr_low = c(2, 2),
-    channel_constr_up = c(2, 2),
+    channel_constr_low = c(1, 1),
+    channel_constr_up = c(200, 1),
     expected_spend = 3608511*2,  # double th spend in the future
     expected_spend_days = 365
   )
+  
+  AllocatorCollect <- robyn_allocator(
+    InputCollect=InputCollect, 
+    OutputCollect=OutputCollect, 
+    select_model=select_model,
+    scenario = "max_response_expected_spend",
+    channel_constr_low = c(2, 1),
+    channel_constr_up = c(2, 1),
+    expected_spend = 5406087,  # ideally one would double the first channel and input the value here
+    expected_spend_days = 365
+  )  
+  
+  AllocatorCollect <- robyn_allocator(
+    InputCollect=InputCollect, 
+    OutputCollect=OutputCollect, 
+    select_model=select_model,
+    scenario = "max_response_expected_spend",
+    channel_constr_low = c(1.5, 0.8),
+    channel_constr_up = c(1.5, 0.8),
+    expected_spend = 4154463,  # ideally one would double the first channel and input the value here
+    expected_spend_days = 365
+  )  
 }
