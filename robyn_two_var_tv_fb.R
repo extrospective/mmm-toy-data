@@ -193,7 +193,14 @@ stop()
 # budget allocation
 
 # select a particular model
-select_model = '1_248_6'
+select_model = '1_93_6'
+
+robyn_save(robyn_object = robyn_object # model object location and name
+           , select_model = select_model # selected model ID
+           , InputCollect = InputCollect # all model input
+           , OutputCollect = OutputCollect # all model output
+)
+
 
 # this version has bug where channel_constr_low and channel_construct_up must have same length as paid_media_vars (2)
 channel_constr_low = c(0.6, 0.6)  # NOTE: this line will essentially restrict the range of solutions the optimizer could consider

@@ -6,7 +6,7 @@
 
 **Analysis**: running robyn_allocator
 
-**Version**: Robyn 3.4.8
+**Version**: Robyn 3.4.8, 3.5.0
 
 Since documentation may be light on running budget allocation, we also fill in the process
 so users can readily execute allocation.
